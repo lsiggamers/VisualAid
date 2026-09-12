@@ -83,9 +83,9 @@ fi
 echo "Compiling..."
 
 g++ cpp_files/*.cpp \
-    -o VisualAid \
+    -o VisualAid.exe \
     -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 \
     -Ih_files
 
 echo "Running..."
-./VisualAid
+./VisualAid.exe
