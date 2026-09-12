@@ -52,7 +52,7 @@ void importAppSettings() {
         windowSize.x = width;
         windowSize.y = height;
 
-        std::ofstream file("settings_files/appLauncherSettings", std::ios::app);
+        std::ofstream file("settings_files/appLauncherSettings.txtsettings", std::ios::app);
         if (!file.is_open()) {
             std::cout << "Failed to open or create settings file";
         } else {

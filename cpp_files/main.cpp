@@ -52,10 +52,10 @@ void playerInput() {
 
 void debugmenu() {
     if (debugMenuActive) {
-        DrawText("Debug Menu", 10, 10, 10, BLACK);
-        DrawText("Player Position:", 10, 20, 10, BLACK);
-        DrawText(("(x:" + std::to_string(PlayerPosition.x) + ", y:" + std::to_string(PlayerPosition.y) + ")").c_str(), 10, 30, 10, BLACK);
-        DrawText(("Speed Modifier: " + std::to_string(speedModifier)).c_str(), 10, 40, 10, BLACK);
+        DrawText("Debug Menu", 10, 10, windowSize.x / 10, BLACK);
+        DrawText("Player Position:", 10, 20, windowSize.x / 10, BLACK);
+        DrawText(("(x:" + std::to_string(PlayerPosition.x) + ", y:" + std::to_string(PlayerPosition.y) + ")").c_str(), 10, 30, windowSize.x / 10, BLACK);
+        DrawText(("Speed Modifier: " + std::to_string(speedModifier)).c_str(), 10, 40, windowSize.x / 10, BLACK);
     }
 }
 
