@@ -11,7 +11,7 @@ std::vector<Texture2D> backgroundTextures;
 
 ScreenPosition windowSize;
 bool globalShutoff;
-int selectedBackground = 1;
+int selectedBackground = 0;
 
 void importAppSettings() {
     int resolutionSelection;

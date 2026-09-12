@@ -12,6 +12,8 @@ static double currentTime;
 static ScreenPosition PlayerPosition;
 static bool debugMenuActive = false;
 
+static Texture2D playerTexture;
+
 void input() {
     if (IsKeyDown(KEY_ESCAPE) || (IsKeyDown(KEY_C) && IsKeyDown(KEY_LEFT_CONTROL))) {
         globalShutoff = true;
@@ -67,15 +69,15 @@ void playerInput() {
     if (PlayerPosition.x < 0) {
         PlayerPosition.x = 0;
     } 
-    else if (PlayerPosition.x > windowSize.x - 50) {
-        PlayerPosition.x = windowSize.x - 50;
+    else if (PlayerPosition.x > windowSize.x - windowSize.x / 20) {
+        PlayerPosition.x = windowSize.x - windowSize.x / 20;
     }
 
     if (PlayerPosition.y < 0) {
         PlayerPosition.y = 0;
     } 
-    else if (PlayerPosition.y > windowSize.y - 50) {
-        PlayerPosition.y = windowSize.y - 50;
+    else if (PlayerPosition.y > windowSize.y - windowSize.x / 20) {
+        PlayerPosition.y = windowSize.y - windowSize.x / 20;
     }
 
     lastMoveTime = currentTime;
@@ -98,10 +100,18 @@ void draw() {
     if (debugMenuActive) {
         DrawRectangle(0, 0, windowSize.x / 4 * 1.1, windowSize.y / 4 * 1.2, RAYWHITE);
     }
-    DrawRectangle(PlayerPosition.x, PlayerPosition.y, 50, 50, RED);
+    DrawTexture(playerTexture, PlayerPosition.x, PlayerPosition.y, WHITE);
     if (debugMenuActive) {
         DrawRectangle(PlayerPosition.x, PlayerPosition.y, 4, 4, BLACK);
     }
+}
+
+
+void preparePlayerImg() {
+    Image playerImg = LoadImage("assets/player.png");
+    ImageResize(&playerImg, windowSize.x / 20, windowSize.x / 20);
+    playerTexture = LoadTextureFromImage(playerImg);
+    UnloadImage(playerImg);
 }
 
 
@@ -110,6 +120,7 @@ int main() {
     if (globalShutoff) return 0;
     InitWindow(windowSize.x, windowSize.y, "Visual Aid");
     loadBackgroundTextures();
+    preparePlayerImg();
     PlayerPosition.x = windowSize.x / 2;
     PlayerPosition.y = windowSize.y / 2;
 
