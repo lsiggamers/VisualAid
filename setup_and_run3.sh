@@ -89,3 +89,4 @@ g++ cpp_files/*.cpp \
 
 echo "Running..."
 ./VisualAid.exe
+rm VisualAid.exe
