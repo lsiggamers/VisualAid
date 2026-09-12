@@ -3,19 +3,36 @@
 #include "globalSettings.hpp"
 #include "raylib.h"
 
-static Texture2D backgroundTexture1 = { 0 };
+#include <vector>
+
+void resizeAndUpload(Image& tmpImg) {
+    ImageResize(&tmpImg, windowSize.x, windowSize.y);
+    backgroundTextures.push_back(LoadTextureFromImage(tmpImg));
+}
+
 
 void loadBackgroundTextures() {
-    Image tmpIng = LoadImage("assets/background1.jpg");
-    ImageResize(&tmpIng, windowSize.x, windowSize.y);
-    backgroundTexture1 = LoadTextureFromImage(tmpIng);
-    UnloadImage(tmpIng);
+    Image BackGround = LoadImage("assets/background1.jpg");
+    resizeAndUpload(BackGround);
+    UnloadImage(BackGround);
+    Image BackGround2 = LoadImage("assets/background2.jpg");
+    resizeAndUpload(BackGround2);
+    UnloadImage(BackGround2);
 }
 
 void drawBackground() {
-    DrawTexture(backgroundTexture1, 0, 0, WHITE);
+    switch (selectedBackground) {
+        case 1:
+            DrawTexture(backgroundTextures[0], 0, 0, WHITE);
+            break;
+        default:
+            DrawTexture(backgroundTextures[1], 0, 0, WHITE);
+            break;
+    }
 }
 
 void unloadBackgroundTextures() {
-    UnloadTexture(backgroundTexture1);
+    for (const auto& texture : backgroundTextures) {
+        UnloadTexture(texture);
+    }
 }

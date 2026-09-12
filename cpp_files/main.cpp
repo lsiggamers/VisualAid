@@ -22,8 +22,25 @@ void input() {
     }
     if (IsKeyPressed(KEY_UP)) {
         speedModifier++;
+        if (speedModifier > 10) {
+            speedModifier = 10;
+        }
     } else if (IsKeyPressed(KEY_DOWN)) {
         speedModifier--;
+        if (speedModifier < -10) {
+            speedModifier = -10;
+        }
+    }
+    if (IsKeyPressed(KEY_LEFT)) {
+        selectedBackground--;
+        if (selectedBackground < 1) {
+            selectedBackground = 1;
+        }
+    } else if (IsKeyPressed(KEY_RIGHT)) {
+        selectedBackground++;
+        if (selectedBackground > backgroundTextures.size()) {
+            selectedBackground = backgroundTextures.size();
+        }
     }
 }
 
@@ -46,23 +63,41 @@ void playerInput() {
         PlayerPosition.x -= 5 * speedModifier;
     }
 
+    // Check if outside of window bounds
+    if (PlayerPosition.x < 0) {
+        PlayerPosition.x = 0;
+    } 
+    else if (PlayerPosition.x > windowSize.x - 50) {
+        PlayerPosition.x = windowSize.x - 50;
+    }
+
+    if (PlayerPosition.y < 0) {
+        PlayerPosition.y = 0;
+    } 
+    else if (PlayerPosition.y > windowSize.y - 50) {
+        PlayerPosition.y = windowSize.y - 50;
+    }
+
     lastMoveTime = currentTime;
 }
 
 
 void debugmenu() {
     if (debugMenuActive) {
-        DrawText("Debug Menu", 10, 10, windowSize.x / 10, BLACK);
-        DrawText("Player Position:", 10, 20, windowSize.x / 10, BLACK);
-        DrawText(("(x:" + std::to_string(PlayerPosition.x) + ", y:" + std::to_string(PlayerPosition.y) + ")").c_str(), 10, 30, windowSize.x / 10, BLACK);
-        DrawText(("Speed Modifier: " + std::to_string(speedModifier)).c_str(), 10, 40, windowSize.x / 10, BLACK);
+        DrawText("Debug Menu", 10, 10, windowSize.y / 20, BLACK);
+        DrawText("Player Position:", 10, windowSize.y / 20 + windowSize.y / 40, windowSize.y / 20, BLACK);
+        DrawText(("(x:" + std::to_string(PlayerPosition.x) + ", y:" + std::to_string(PlayerPosition.y) + ")").c_str(), 10, windowSize.y / 20 + 2 * windowSize.y / 20, windowSize.y / 20, BLACK);
+        DrawText(("Speed Modifier: " + std::to_string(speedModifier)).c_str(), 10, windowSize.y / 20 + 3 * windowSize.y / 20, windowSize.y / 20, BLACK);
+        DrawText(("FPS: " + std::to_string(GetFPS())).c_str(), 10, windowSize.y / 20 + 4 * windowSize.y / 20, windowSize.y / 20, BLACK);
     }
 }
 
 
 void draw() {
     drawBackground();
-    //ClearBackground(RAYWHITE);
+    if (debugMenuActive) {
+        DrawRectangle(0, 0, windowSize.x / 4 * 1.1, windowSize.y / 4 * 1.2, RAYWHITE);
+    }
     DrawRectangle(PlayerPosition.x, PlayerPosition.y, 50, 50, RED);
     if (debugMenuActive) {
         DrawRectangle(PlayerPosition.x, PlayerPosition.y, 4, 4, BLACK);
@@ -72,6 +107,7 @@ void draw() {
 
 int main() {
     importAppSettings();
+    if (globalShutoff) return 0;
     InitWindow(windowSize.x, windowSize.y, "Visual Aid");
     loadBackgroundTextures();
     PlayerPosition.x = windowSize.x / 2;
