@@ -33,8 +33,8 @@ void input() {
     }
     if (IsKeyPressed(KEY_LEFT)) {
         selectedBackground--;
-        if (selectedBackground < 1) {
-            selectedBackground = 1;
+        if (selectedBackground < 0) {
+            selectedBackground = 0;
         }
     } else if (IsKeyPressed(KEY_RIGHT)) {
         selectedBackground++;
