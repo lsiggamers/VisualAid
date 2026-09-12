@@ -14,7 +14,7 @@ static bool foundWidth, foundHeight;
 
 void importAppSettings() {
     std::string line;
-    std::ifstream file("settings_files/appLauncherSettings");
+    std::ifstream file("settings_files/appLauncherSettings.txtsettings");
     foundWidth = false;
     foundHeight = false;
 
